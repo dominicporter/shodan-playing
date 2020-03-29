@@ -53,16 +53,15 @@ if (argv["cache-file"]) {
 
 
 // Now do the query
-const queryHosts = async (hostList, opts = {}) => {
-  for (hostIp of hostList) {
+ (async () => {
+  for (hostIp of options.ipList) {
     if (!options.hostCache[hostIp]) {
       try {
-        result = await client.host(hostIp, APIKEY, opts);
+        result = await client.host(hostIp, APIKEY);
         // console.log(result);
         options.hostCache[hostIp] = result;
       } catch (err) {
-        console.log(`Error: ${hostIp}`);
-        console.log(err);
+        console.log(`Error: ${hostIp} - ${err.message}`);
       }
     } else {
       console.log(`Skipping already cached Address: ${hostIp}`);
@@ -70,6 +69,4 @@ const queryHosts = async (hostList, opts = {}) => {
   }
 
   fs.writeFileSync(options.cacheFile, JSON.stringify(options.hostCache, null, 2));
-}
-
-queryHosts(options.ipList);
+})()

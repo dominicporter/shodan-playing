@@ -44,8 +44,9 @@ if (argv["cache-file"]) {
     console.log(Object.keys(JSON.parse(rawdata)).length, ' addresses in cache')
     options.hostCache = (JSON.parse(rawdata));
   } catch (err){
-    console.log(err);
+    // console.log(err);
     console.log('cache file doesnt exist, will create it.');
+    options.hostCache = {};
   }
 } else {
   console.log('No cache file specified, outputting to console');
